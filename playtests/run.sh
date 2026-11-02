@@ -15,7 +15,7 @@ if [ -n "$TEST_WS" ]; then
   printf '#!/bin/sh\nCHOR_WAV=%s/out.wav CHOR_MUTE=1 exec %s %s/game > %s/game.log 2>&1\n' "$out" "$chor" "$out" "$out" > "$out/launch.sh"
   chmod +x "$out/launch.sh"
   hyprctl eval "hl.exec_cmd(\"[workspace $TEST_WS silent] $out/launch.sh\")" >/dev/null
-  sleep "$secs"; pkill -x chor || true
+  sleep "$secs"; pkill -f "$out/game" || true
 else
   CHOR_WAV="$out/out.wav" CHOR_MUTE=1 timeout "$secs" "$chor" "$out/game" > "$out/game.log" 2>&1 || true
 fi
