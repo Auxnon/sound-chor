@@ -33,6 +33,34 @@ chorus = {
 	{ "o", "sha", 220 },
 	{ "p", "ka", 220 },
 }
+-- Lines for the talk keys: k speaks one in the next voice, l spells it out
+-- letter by letter (real Animalese).
+TALK = {
+	lines = {
+		"Hey there! Welcome to sound chor.",
+		"Did you hear that amen break? It's chopped into sixteen slices.",
+		"I think the rain is coming, so keep moving.",
+		"Oh, hello! Do you want to play some music today?",
+	},
+	voices = { "normal", "peppy", "lazy", "cranky", "robot" },
+	n = 0,
+}
+
+-- Speak the next talk line, cycling through the voices.
+function talk_next(letters)
+	TALK.n = TALK.n + 1
+	local li = (TALK.n - 1) % #TALK.lines + 1
+	local vi = (TALK.n - 1) % #TALK.voices + 1
+	local line = TALK.lines[li]
+	local v = TALK.voices[vi]
+	local cfg = { voice = v, letters = letters }
+	local secs = talk(line, cfg)
+	local r = respell(line)
+	print("talk (" .. v .. "): " .. r)
+	cout(v .. ": " .. line)
+	return secs
+end
+
 whites = {}
 -- Which white key the pointer was on last frame (0 = none), for press-edge
 -- detection the same way `key(name, true)` works for the keyboard.
@@ -106,6 +134,7 @@ end
 
 function main()
 	mute()
+	speech_init()
 
 	instr(1, { 1, 0, 0.5, 0, 0.3 }) -- additive organ-ish tone (instrument 1)
 	-- Instrument 2 = a sound loaded from disk: sounds/tone.ogg (a 440Hz pluck,
@@ -169,11 +198,24 @@ function main()
 	-- A touch of distance fog fading toward the sky colour.
 	fog({ color = "113", dist = 220 })
 	cout("piano: press number keys 1-0 (chords work); keys dip while held")
+	cout("j: jungle song on/off   k: talk   l: talk in letters")
 end
 
-function loop()
+function loop(dt)
+	if TEST_HOOK ~= nil then
+		TEST_HOOK(dt)
+	end
 	if key("z", true) then
 		crsh(2, 4, 600)
+	end
+	if key("j", true) then
+		jungle_toggle()
+	end
+	if key("k", true) then
+		talk_next(false)
+	end
+	if key("l", true) then
+		talk_next(true)
 	end
 
 	local hit = key_under_pointer(mus())

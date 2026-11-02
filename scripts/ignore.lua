@@ -514,6 +514,14 @@ function rnd(a, b) end
 function rou(f) end
 
 
+-- Play a sequence of steps on the transport: once, a counted number of times, or looped; chain with after
+---@alias SeqStep { [1]: number, [2]: number|number[]|nil, [3]: integer?, [4]: number?, len?: number, at?: number, say?: string }
+---@param id integer? the sequence's handle; seq() alone stops every sequence
+---@param steps SeqStep[]? {beats, freq|{freqs}|0 (rest), instrument?, volume?, len=beats, at=beat, say='la'}; omit to stop `id`
+---@param cfg? { ch?: integer, loop?: integer|boolean, len?: number, at?: number, grid?: number, after?: integer, choke?: boolean }
+function seq(id, steps, cfg) end
+
+
 -- load a file relative to the game directory
 ---@return table
 function get() end
@@ -543,10 +551,10 @@ function sin(f) end
 function sing(lyrics, melody, length, channel) end
 
 
--- Define instrument `id` from a loaded sound name, or raw PCM samples (-1..1); cfg = { base, atk, dec, sus, rel }
+-- Define instrument `id` from a loaded sound name, or raw PCM samples (-1..1); cfg = { base, atk, dec, sus, rel, from, to }
 ---@param id integer
 ---@param data string|number[] a loaded sound name (sounds/<name>.ogg), or raw PCM samples in -1..1
----@param cfg? { base?: number, atk?: number, dec?: number, sus?: number, rel?: number } base pitch (default 440) + ADSR envelope
+---@param cfg? { base?: number, atk?: number, dec?: number, sus?: number, rel?: number, from?: number, to?: number } base pitch (default 440) + ADSR envelope; from/to slice a loaded file (0..1)
 function smpl(id, data, cfg) end
 
 
