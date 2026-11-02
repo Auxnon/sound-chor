@@ -490,15 +490,18 @@ function talk(text, cfg)
 				len = blip * 0.9
 			end
 			local bt = beats(len)
-			local hold = beats(len * 0.8)
+			-- Held nearly the whole slot: the engine carries the voice from one
+			-- syllable into the next while it's still sounding, so a phrase
+			-- runs together instead of beeping.
+			local hold = beats(len * 0.92)
 			n = n + 1
 			local st = { bt, f, 0, 0.9, say = u.s, len = hold }
 			steps[n] = st
 			secs = secs + len
-			-- A short breath between words.
+			-- A hair of space between words (punctuation pauses are longer).
 			local nxt = units[i + 1]
 			if nxt ~= nil and nxt.first == true then
-				local gap = 0.025 / rate
+				local gap = 0.01 / rate
 				n = n + 1
 				local gb = beats(gap)
 				local g = { gb, 0 }
