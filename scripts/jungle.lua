@@ -61,16 +61,16 @@ function jungle_instruments()
 	vox(JG.vocal, { breath = 0.12, vib = 0.025, hz = 5.2 })
 	echo(JG.vocal, 0.26, 0.25, 0.2)
 	verb(JG.vocal, 0.55, 0.5, 0.3)
-	-- Levels.
 	-- Levels: the master bus soft-limits, so leave it headroom rather than
-	-- letting the break and the sub push everything into the limiter.
-	fade(JG.drums, 0, 0.55)
-	fade(JG.bass, 0, 0.5)
-	fade(JG.pad, 0, 0.25)
-	fade(JG.hats, 0, 0.25)
-	fade(JG.arp, 0, 0.35)
-	fade(JG.keys, 0, 0.5)
-	fade(JG.vocal, 0, 0.8)
+	-- letting the break and the sub push everything into the limiter. The
+	-- vocal sits ~2 dB under the band.
+	fade(JG.drums, 0, 0.41)
+	fade(JG.bass, 0, 0.38)
+	fade(JG.pad, 0, 0.19)
+	fade(JG.hats, 0, 0.19)
+	fade(JG.arp, 0, 0.26)
+	fade(JG.keys, 0, 0.38)
+	fade(JG.vocal, 0, 0.6)
 end
 
 -- Four bars of chopped amen: straight, a variation, a rearrangement, a fill.
