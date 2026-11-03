@@ -516,9 +516,10 @@ function rou(f) end
 
 -- Play a sequence of steps on the transport: once, a counted number of times, or looped; chain with after
 ---@alias SeqStep { [1]: number, [2]: number|number[]|nil, [3]: integer?, [4]: number?, len?: number, at?: number, say?: string }
----@param id integer? the sequence's handle; seq() alone stops every sequence
+---@param id integer? the sequence's handle; nil pushes it after the channel's last sequence; seq() alone stops every sequence
 ---@param steps SeqStep[]? {beats, freq|{freqs}|0 (rest), instrument?, volume?, len=beats, at=beat, say='la'}; omit to stop `id`
----@param cfg? { ch?: integer, loop?: integer|boolean, len?: number, at?: number, grid?: number, after?: integer, choke?: boolean }
+---@param cfg? { ch?: integer, loop?: integer|boolean, len?: number, at?: number, grid?: number, after?: integer|false, choke?: boolean, bpm?: number }
+---@return integer? id the sequence's id (the new one, for a push)
 function seq(id, steps, cfg) end
 
 
